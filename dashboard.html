@@ -1,187 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel — Agrox</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <style>
-        html, body {
-            height: 100%;
-        }
-        .dashboard-app {
-            min-height: 100%;
-            display: flex;
-        }
-        .dashboard-sidebar {
-            width: 260px;
-            flex-shrink: 0;
-            background: #212529;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.25s ease;
-            z-index: 1040;
-        }
-        .sidebar-brand {
-            padding: 1rem 1.25rem;
-            font-weight: 600;
-            font-size: 1.125rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .dashboard-sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.75);
-            padding: 0.75rem 1.25rem;
-            border-radius: 0;
-            border-left: 3px solid transparent;
-        }
-        .dashboard-sidebar .nav-link:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .dashboard-sidebar .nav-link.active {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.1);
-            border-left-color: #007bff;
-        }
-        .dashboard-main {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            background: #f8f9fa;
-        }
-        .dashboard-topbar {
-            background: #fff;
-            border-bottom: 1px solid #dee2e6;
-            padding: 0.5rem 1rem;
-            flex-shrink: 0;
-        }
-        .dashboard-topbar #tituloPagina {
-            min-width: 0;
-        }
-        .dashboard-content {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-        }
-        @media (max-width: 767.98px) {
-            .dashboard-sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                transform: translateX(-100%);
-                box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
-            }
-            .dashboard-sidebar.is-open {
-                transform: translateX(0);
-            }
-        }
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            z-index: 1030;
-        }
-        .sidebar-overlay.is-visible {
-            display: block;
-        }
-        .content-section {
-            display: none;
-        }
-        .content-section.is-active {
-            display: block;
-        }
-        .inicio-bloco .card {
-            min-height: 100%;
-        }
-        .tempo-atual-num {
-            font-size: 2rem;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-        .tempo-lista-dia {
-            font-size: 0.875rem;
-            border-bottom: 1px solid #eee;
-            padding: 0.35rem 0;
-        }
-        .tempo-lista-dia:last-child {
-            border-bottom: 0;
-        }
-        .calendario-tabela th,
-        .calendario-tabela td {
-            width: 14.28%;
-            vertical-align: middle;
-            padding: 0.35rem 0.2rem;
-            font-size: 0.8125rem;
-        }
-        .calendario-tabela td.cal-dia-outro {
-            color: #adb5bd;
-        }
-        .calendario-tabela td.cal-hoje {
-            background: #e7f1ff;
-            color: #0056b3;
-            font-weight: 600;
-            border-radius: 0.25rem;
-        }
-        .contatos-lista {
-            max-height: 280px;
-            overflow-y: auto;
-        }
-        .contatos-lista .list-group-item {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.875rem;
-        }
-        .contatos-lista a {
-            white-space: nowrap;
-        }
-        .solo-thumb-img {
-            width: 72px;
-            height: 72px;
-            object-fit: cover;
-            border-radius: 0.25rem;
-            border: 1px solid #dee2e6;
-            vertical-align: middle;
-        }
-        .solo-obs-celula {
-            max-width: 260px;
-            font-size: 0.8125rem;
-            word-break: break-word;
-        }
-        .chat-sim-wrap {
-            min-height: 320px;
-        }
-        .chat-sim-log {
-            flex: 1;
-            min-height: 180px;
-            max-height: 220px;
-            overflow-y: auto;
-            background: #e9ecef;
-        }
-        .chat-sim-bubble-user {
-            max-width: 88%;
-            background: #007bff;
-            color: #fff;
-        }
-        .chat-sim-bubble-bot {
-            max-width: 88%;
-            background: #fff;
-            border: 1px solid #dee2e6;
-            color: #495057;
-        }
-        .agro-crud-table thead th {
-            font-size: 0.75rem;
-            white-space: nowrap;
-            vertical-align: middle;
-        }
-        .agro-crud-table td {
-            font-size: 0.8125rem;
-            vertical-align: middle;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
+
 <body>
     <div class="dashboard-app">
         <div id="sidebarOverlay" class="sidebar-overlay d-md-none" aria-hidden="true"></div>
@@ -202,12 +30,19 @@
         <div class="dashboard-main">
             <header class="dashboard-topbar d-flex align-items-center flex-wrap">
                 <button type="button" class="btn btn-outline-secondary btn-sm d-md-none mr-2" id="btnMenu" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir menu">
-                    <span aria-hidden="true">☰</span>
+                    <span aria-hidden="true">
+                        ☰
+                    </span>
                 </button>
-                <h1 class="h5 mb-0 text-truncate flex-grow-1 mr-2" id="tituloPagina">Início</h1>
+                <h1 class="h5 mb-0 text-truncate flex-grow-1 mr-2" id="tituloPagina">
+                    Início
+                </h1>
                 <div class="d-flex align-items-center ml-auto flex-shrink-0">
-                    <span id="msgBoasVindas" class="small text-muted mr-2 text-truncate" style="max-width: min(220px, 42vw);"></span>
-                    <button type="button" class="btn btn-outline-danger btn-sm" id="btnSair">Sair</button>
+                    <span id="msgBoasVindas" class="small text-muted mr-2 text-truncate"
+                        style="max-width: min(220px, 42vw);"></span>
+                    <button type="button" class="btn btn-outline-danger btn-sm" id="btnSair">
+                        Sair
+                    </button>
                 </div>
             </header>
 
@@ -218,9 +53,15 @@
                         <div class="col-12 col-md-6 mb-3">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body d-flex flex-column">
-                                    <h3 class="h6 text-uppercase text-muted mb-1">Previsão do tempo</h3>
-                                    <p class="small text-muted mb-3">Rio Grande do Sul · referência: Porto Alegre</p>
-                                    <div id="tempoCarregando" class="text-muted small">Carregando dados…</div>
+                                    <h3 class="h6 text-uppercase text-muted mb-1">
+                                        Previsão do tempo
+                                    </h3>
+                                    <p class="small text-muted mb-3">
+                                        Rio Grande do Sul · referência: Porto Alegre
+                                    </p>
+                                    <div id="tempoCarregando" class="text-muted small">
+                                        Carregando dados…
+                                    </div>
                                     <div id="tempoErro" class="alert alert-warning small py-2 mb-0 d-none" role="alert"></div>
                                     <div id="tempoConteudo" class="d-none flex-grow-1">
                                         <div class="d-flex flex-wrap align-items-baseline mb-2">
@@ -240,12 +81,17 @@
                                 <div class="card-body d-flex flex-column">
                                     <h3 class="h6 text-uppercase text-muted mb-2">Calendário</h3>
                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary px-2" id="calPrev" aria-label="Mês anterior">‹</button>
-                                        <span class="small font-weight-bold text-capitalize text-center px-1" id="calTitulo"></span>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary px-2" id="calNext" aria-label="Próximo mês">›</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary px-2" id="calPrev"
+                                            aria-label="Mês anterior">‹</button>
+                                        <span class="small font-weight-bold text-capitalize text-center px-1"
+                                            id="calTitulo"></span>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary px-2" id="calNext"
+                                            aria-label="Próximo mês">›</button>
                                     </div>
                                     <div class="table-responsive flex-grow-1">
-                                        <table class="table table-sm table-borderless mb-0 text-center calendario-tabela" id="calTabela">
+                                        <table
+                                            class="table table-sm table-borderless mb-0 text-center calendario-tabela"
+                                            id="calTabela">
                                             <thead>
                                                 <tr class="text-muted small">
                                                     <th scope="col" class="font-weight-normal">Dom</th>
@@ -260,6 +106,8 @@
                                             <tbody id="calCorpo"></tbody>
                                         </table>
                                     </div>
+                                    <div class="cal-legenda mt-2 pt-2 border-top" id="calLegenda"
+                                        aria-label="Legenda do calendário"></div>
                                 </div>
                             </div>
                         </div>
@@ -268,9 +116,11 @@
                                 <div class="card-body d-flex flex-column p-0">
                                     <div class="px-3 pt-3 pb-2 border-bottom bg-white">
                                         <h3 class="h6 text-uppercase text-muted mb-0">Contatos úteis</h3>
-                                        <p class="small text-muted mb-0 mt-1">Lista telefônica rápida — toque no número para ligar no celular.</p>
+                                        <p class="small text-muted mb-0 mt-1">Lista telefônica rápida — toque no número
+                                            para ligar no celular.</p>
                                     </div>
-                                    <ul class="list-group list-group-flush contatos-lista flex-grow-1 mb-0" id="listaContatos">
+                                    <ul class="list-group list-group-flush contatos-lista flex-grow-1 mb-0"
+                                        id="listaContatos">
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div>
                                                 <span class="font-weight-bold d-block">Polícia Militar</span>
@@ -315,7 +165,8 @@
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div>
-                                                <span class="font-weight-bold d-block">Cooperativa / unidade local</span>
+                                                <span class="font-weight-bold d-block">Cooperativa / unidade
+                                                    local</span>
                                                 <span class="text-muted small">Ajuste ao seu contato real</span>
                                             </div>
                                             <a href="tel:+5551999999999" class="small text-right">(51) 99999-9999</a>
@@ -336,17 +187,22 @@
                                 <div class="card-body d-flex flex-column p-0 chat-sim-wrap">
                                     <div class="px-3 pt-3 pb-2 border-bottom bg-white">
                                         <h3 class="h6 text-uppercase text-muted mb-1">Assistente Agrox</h3>
-                                        <p class="small text-muted mb-0">Simulação de chat — as respostas dependem do servidor.</p>
+                                        <p class="small text-muted mb-0">Simulação de chat — as respostas dependem do
+                                            servidor.</p>
                                     </div>
-                                    <div id="chatSimLog" class="chat-sim-log px-3 py-2 small" role="log" aria-live="polite">
-                                        <div id="chatSimPlaceholder" class="text-muted font-italic mb-2">Nenhuma mensagem ainda. Envie uma pergunta abaixo.</div>
+                                    <div id="chatSimLog" class="chat-sim-log px-3 py-2 small" role="log"
+                                        aria-live="polite">
+                                        <div id="chatSimPlaceholder" class="text-muted font-italic mb-2">Nenhuma
+                                            mensagem ainda. Envie uma pergunta abaixo.</div>
                                     </div>
                                     <form id="chatSimForm" class="border-top bg-white p-2 mt-auto">
                                         <label for="chatSimInput" class="sr-only">Sua pergunta</label>
                                         <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control" id="chatSimInput" placeholder="Digite sua pergunta…" autocomplete="off" maxlength="500">
+                                            <input type="text" class="form-control" id="chatSimInput"
+                                                placeholder="Digite sua pergunta…" autocomplete="off" maxlength="500">
                                             <div class="input-group-append">
-                                                <button type="submit" class="btn btn-primary" id="chatSimBtn">Enviar</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    id="chatSimBtn">Enviar</button>
                                             </div>
                                         </div>
                                     </form>
@@ -360,7 +216,8 @@
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
                                 <h2 class="h5 card-title mb-0">Plantio</h2>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalPlantio">Novo registro</button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modalPlantio">Novo registro</button>
                             </div>
                             <p class="small text-muted mb-3">Controle de tudo o que foi plantado.</p>
                             <div class="table-responsive">
@@ -387,7 +244,8 @@
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
                                 <h2 class="h5 card-title mb-0">Insumos</h2>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalInsumos">Novo registro</button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modalInsumos">Novo registro</button>
                             </div>
                             <p class="small text-muted mb-3">Controle do que entra na produção.</p>
                             <div class="table-responsive">
@@ -414,7 +272,8 @@
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
                                 <h2 class="h5 card-title mb-0">Manejo e atividades</h2>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalManejo">Novo registro</button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modalManejo">Novo registro</button>
                             </div>
                             <p class="small text-muted mb-3">Registro das operações feitas na lavoura.</p>
                             <div class="table-responsive">
@@ -441,7 +300,8 @@
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
                                 <h2 class="h5 card-title mb-0">Máquinas e equipamentos</h2>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalMaquinas">Novo registro</button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modalMaquinas">Novo registro</button>
                             </div>
                             <p class="small text-muted mb-3">Controle da frota agrícola.</p>
                             <div class="table-responsive">
@@ -468,7 +328,8 @@
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
                                 <h2 class="h5 card-title mb-0">Produção e colheita</h2>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalProducao">Novo registro</button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modalProducao">Novo registro</button>
                             </div>
                             <p class="small text-muted mb-3">Acompanhamento dos resultados.</p>
                             <div class="table-responsive">
@@ -495,9 +356,11 @@
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
                                 <h2 class="h5 card-title mb-0">Solo</h2>
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalSolo">Novo registro</button>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modalSolo">Novo registro</button>
                             </div>
-                            <p class="small text-muted mb-3">Registro de amostras com foto (câmera ou arquivo), estado do solo, observações e data.</p>
+                            <p class="small text-muted mb-3">Registro de amostras com foto (câmera ou arquivo), estado
+                                do solo, observações e data.</p>
                             <div class="table-responsive">
                                 <table class="table table-sm table-striped table-bordered agro-crud-table mb-0">
                                     <thead class="thead-light">
@@ -518,27 +381,43 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalPlantio" tabindex="-1" role="dialog" aria-labelledby="modalPlantioTitulo" aria-hidden="true">
+    <div class="modal fade" id="modalPlantio" tabindex="-1" role="dialog" aria-labelledby="modalPlantioTitulo"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalPlantioTitulo">Novo plantio</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form id="formPlantio">
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label for="pl_cultura">Cultura plantada</label><input type="text" class="form-control form-control-sm" id="pl_cultura" name="cultura" required></div>
-                            <div class="form-group col-md-6"><label for="pl_talhao">Talhão / área</label><input type="text" class="form-control form-control-sm" id="pl_talhao" name="talhao" required></div>
+                            <div class="form-group col-md-6"><label for="pl_cultura">Cultura plantada</label><input
+                                    type="text" class="form-control form-control-sm" id="pl_cultura" name="cultura"
+                                    required></div>
+                            <div class="form-group col-md-6"><label for="pl_talhao">Talhão / área</label><input
+                                    type="text" class="form-control form-control-sm" id="pl_talhao" name="talhao"
+                                    required></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label for="pl_dataPlantio">Data do plantio</label><input type="date" class="form-control form-control-sm" id="pl_dataPlantio" name="dataPlantio" required></div>
-                            <div class="form-group col-md-4"><label for="pl_qtdSementes">Quantidade de sementes</label><input type="text" class="form-control form-control-sm" id="pl_qtdSementes" name="qtdSementes"></div>
-                            <div class="form-group col-md-4"><label for="pl_variedade">Variedade da semente</label><input type="text" class="form-control form-control-sm" id="pl_variedade" name="variedade"></div>
+                            <div class="form-group col-md-4"><label for="pl_dataPlantio">Data do plantio</label><input
+                                    type="date" class="form-control form-control-sm" id="pl_dataPlantio"
+                                    name="dataPlantio" required></div>
+                            <div class="form-group col-md-4"><label for="pl_qtdSementes">Quantidade de
+                                    sementes</label><input type="text" class="form-control form-control-sm"
+                                    id="pl_qtdSementes" name="qtdSementes"></div>
+                            <div class="form-group col-md-4"><label for="pl_variedade">Variedade da
+                                    semente</label><input type="text" class="form-control form-control-sm"
+                                    id="pl_variedade" name="variedade"></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label for="pl_espacamento">Espaçamento</label><input type="text" class="form-control form-control-sm" id="pl_espacamento" name="espacamento" placeholder="ex.: 45 cm"></div>
-                            <div class="form-group col-md-6"><label for="pl_previsaoColheita">Previsão de colheita</label><input type="date" class="form-control form-control-sm" id="pl_previsaoColheita" name="previsaoColheita"></div>
+                            <div class="form-group col-md-6"><label for="pl_espacamento">Espaçamento</label><input
+                                    type="text" class="form-control form-control-sm" id="pl_espacamento"
+                                    name="espacamento" placeholder="ex.: 45 cm"></div>
+                            <div class="form-group col-md-6"><label for="pl_previsaoColheita">Previsão de
+                                    colheita</label><input type="date" class="form-control form-control-sm"
+                                    id="pl_previsaoColheita" name="previsaoColheita"></div>
                         </div>
                     </form>
                 </div>
@@ -550,25 +429,43 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalInsumos" tabindex="-1" role="dialog" aria-labelledby="modalInsumosTitulo" aria-hidden="true">
+    <div class="modal fade" id="modalInsumos" tabindex="-1" role="dialog" aria-labelledby="modalInsumosTitulo"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalInsumosTitulo">Novo insumo / movimentação</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form id="formInsumos">
-                        <div class="form-group"><label for="in_tipoInsumo">Insumo (tipo)</label><input type="text" class="form-control form-control-sm" id="in_tipoInsumo" name="tipoInsumo" placeholder="Fertilizante, defensivo, herbicida, semente…" required></div>
+                        <div class="form-group"><label for="in_tipoInsumo">Insumo (tipo)</label><input type="text"
+                                class="form-control form-control-sm" id="in_tipoInsumo" name="tipoInsumo"
+                                placeholder="Fertilizante, defensivo, herbicida, semente…" required></div>
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label for="in_estoqueAtual">Estoque atual</label><input type="text" class="form-control form-control-sm" id="in_estoqueAtual" name="estoqueAtual"></div>
-                            <div class="form-group col-md-4"><label for="in_entradaSaida">Entrada / saída</label><select class="form-control form-control-sm" id="in_entradaSaida" name="entradaSaida"><option value="Entrada">Entrada</option><option value="Saída">Saída</option></select></div>
-                            <div class="form-group col-md-4"><label for="in_custo">Custo</label><input type="text" class="form-control form-control-sm" id="in_custo" name="custo" placeholder="R$"></div>
+                            <div class="form-group col-md-4"><label for="in_estoqueAtual">Estoque atual</label><input
+                                    type="text" class="form-control form-control-sm" id="in_estoqueAtual"
+                                    name="estoqueAtual"></div>
+                            <div class="form-group col-md-4"><label for="in_entradaSaida">Entrada / saída</label><select
+                                    class="form-control form-control-sm" id="in_entradaSaida" name="entradaSaida">
+                                    <option value="Entrada">Entrada</option>
+                                    <option value="Saída">Saída</option>
+                                </select></div>
+                            <div class="form-group col-md-4"><label for="in_custo">Custo</label><input type="text"
+                                    class="form-control form-control-sm" id="in_custo" name="custo" placeholder="R$">
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label for="in_dataAplicacao">Data de aplicação</label><input type="date" class="form-control form-control-sm" id="in_dataAplicacao" name="dataAplicacao"></div>
-                            <div class="form-group col-md-4"><label for="in_qtdUsada">Quantidade usada</label><input type="text" class="form-control form-control-sm" id="in_qtdUsada" name="qtdUsada"></div>
-                            <div class="form-group col-md-4"><label for="in_fornecedor">Fornecedor</label><input type="text" class="form-control form-control-sm" id="in_fornecedor" name="fornecedor"></div>
+                            <div class="form-group col-md-4"><label for="in_dataAplicacao">Data de
+                                    aplicação</label><input type="date" class="form-control form-control-sm"
+                                    id="in_dataAplicacao" name="dataAplicacao"></div>
+                            <div class="form-group col-md-4"><label for="in_qtdUsada">Quantidade usada</label><input
+                                    type="text" class="form-control form-control-sm" id="in_qtdUsada" name="qtdUsada">
+                            </div>
+                            <div class="form-group col-md-4"><label for="in_fornecedor">Fornecedor</label><input
+                                    type="text" class="form-control form-control-sm" id="in_fornecedor"
+                                    name="fornecedor"></div>
                         </div>
                     </form>
                 </div>
@@ -580,36 +477,51 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalManejo" tabindex="-1" role="dialog" aria-labelledby="modalManejoTitulo" aria-hidden="true">
+    <div class="modal fade" id="modalManejo" tabindex="-1" role="dialog" aria-labelledby="modalManejoTitulo"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalManejoTitulo">Nova atividade</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form id="formManejo">
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label for="mn_dataAtividade">Data</label><input type="date" class="form-control form-control-sm" id="mn_dataAtividade" name="dataAtividade" required></div>
-                            <div class="form-group col-md-8"><label for="mn_tipoAtividade">Tipo de atividade</label><select class="form-control form-control-sm" id="mn_tipoAtividade" name="tipoAtividade" required>
-                                <option value="">Selecione…</option>
-                                <option value="Pulverização">Pulverização</option>
-                                <option value="Irrigação">Irrigação</option>
-                                <option value="Adubação">Adubação</option>
-                                <option value="Aplicação de defensivos">Aplicação de defensivos</option>
-                                <option value="Preparo do solo">Preparo do solo</option>
-                                <option value="Colheita">Colheita</option>
-                                <option value="Outro">Outro</option>
-                            </select></div>
+                            <div class="form-group col-md-4"><label for="mn_dataAtividade">Data</label><input
+                                    type="date" class="form-control form-control-sm" id="mn_dataAtividade"
+                                    name="dataAtividade" required></div>
+                            <div class="form-group col-md-8"><label for="mn_tipoAtividade">Tipo de
+                                    atividade</label><select class="form-control form-control-sm" id="mn_tipoAtividade"
+                                    name="tipoAtividade" required>
+                                    <option value="">Selecione…</option>
+                                    <option value="Pulverização">Pulverização</option>
+                                    <option value="Irrigação">Irrigação</option>
+                                    <option value="Adubação">Adubação</option>
+                                    <option value="Aplicação de defensivos">Aplicação de defensivos</option>
+                                    <option value="Preparo do solo">Preparo do solo</option>
+                                    <option value="Colheita">Colheita</option>
+                                    <option value="Outro">Outro</option>
+                                </select></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label for="mn_quemExecutou">Quem executou</label><input type="text" class="form-control form-control-sm" id="mn_quemExecutou" name="quemExecutou"></div>
-                            <div class="form-group col-md-6"><label for="mn_maquina">Máquina utilizada</label><input type="text" class="form-control form-control-sm" id="mn_maquina" name="maquina"></div>
+                            <div class="form-group col-md-6"><label for="mn_quemExecutou">Quem executou</label><input
+                                    type="text" class="form-control form-control-sm" id="mn_quemExecutou"
+                                    name="quemExecutou"></div>
+                            <div class="form-group col-md-6"><label for="mn_maquina">Máquina utilizada</label><input
+                                    type="text" class="form-control form-control-sm" id="mn_maquina" name="maquina">
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label for="mn_tempoGasto">Tempo gasto</label><input type="text" class="form-control form-control-sm" id="mn_tempoGasto" name="tempoGasto" placeholder="ex.: 4 h"></div>
-                            <div class="form-group col-md-4"><label for="mn_custoOperacional">Custo operacional</label><input type="text" class="form-control form-control-sm" id="mn_custoOperacional" name="custoOperacional"></div>
-                            <div class="form-group col-md-4"><label for="mn_clima">Condições climáticas</label><input type="text" class="form-control form-control-sm" id="mn_clima" name="clima"></div>
+                            <div class="form-group col-md-4"><label for="mn_tempoGasto">Tempo gasto</label><input
+                                    type="text" class="form-control form-control-sm" id="mn_tempoGasto"
+                                    name="tempoGasto" placeholder="ex.: 4 h"></div>
+                            <div class="form-group col-md-4"><label for="mn_custoOperacional">Custo
+                                    operacional</label><input type="text" class="form-control form-control-sm"
+                                    id="mn_custoOperacional" name="custoOperacional"></div>
+                            <div class="form-group col-md-4"><label for="mn_clima">Condições climáticas</label><input
+                                    type="text" class="form-control form-control-sm" id="mn_clima" name="clima"></div>
                         </div>
                     </form>
                 </div>
@@ -621,34 +533,51 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalMaquinas" tabindex="-1" role="dialog" aria-labelledby="modalMaquinasTitulo" aria-hidden="true">
+    <div class="modal fade" id="modalMaquinas" tabindex="-1" role="dialog" aria-labelledby="modalMaquinasTitulo"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalMaquinasTitulo">Nova máquina / equipamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form id="formMaquinas">
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label for="mq_nome">Identificação</label><input type="text" class="form-control form-control-sm" id="mq_nome" name="nome" required placeholder="Nome ou número da frota"></div>
-                            <div class="form-group col-md-6"><label for="mq_tipoEquipamento">Tipo</label><select class="form-control form-control-sm" id="mq_tipoEquipamento" name="tipoEquipamento" required>
-                                <option value="">Selecione…</option>
-                                <option value="Trator">Trator</option>
-                                <option value="Colheitadeira">Colheitadeira</option>
-                                <option value="Pulverizador">Pulverizador</option>
-                                <option value="Implemento">Implemento</option>
-                                <option value="Outro">Outro</option>
-                            </select></div>
+                            <div class="form-group col-md-6"><label for="mq_nome">Identificação</label><input
+                                    type="text" class="form-control form-control-sm" id="mq_nome" name="nome" required
+                                    placeholder="Nome ou número da frota"></div>
+                            <div class="form-group col-md-6"><label for="mq_tipoEquipamento">Tipo</label><select
+                                    class="form-control form-control-sm" id="mq_tipoEquipamento" name="tipoEquipamento"
+                                    required>
+                                    <option value="">Selecione…</option>
+                                    <option value="Trator">Trator</option>
+                                    <option value="Colheitadeira">Colheitadeira</option>
+                                    <option value="Pulverizador">Pulverizador</option>
+                                    <option value="Implemento">Implemento</option>
+                                    <option value="Outro">Outro</option>
+                                </select></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label for="mq_horasTrabalhadas">Horas trabalhadas</label><input type="text" class="form-control form-control-sm" id="mq_horasTrabalhadas" name="horasTrabalhadas"></div>
-                            <div class="form-group col-md-4"><label for="mq_manutencaoPreventiva">Manutenção preventiva</label><input type="text" class="form-control form-control-sm" id="mq_manutencaoPreventiva" name="manutencaoPreventiva" placeholder="Data ou status"></div>
-                            <div class="form-group col-md-4"><label for="mq_trocaOleo">Troca de óleo</label><input type="text" class="form-control form-control-sm" id="mq_trocaOleo" name="trocaOleo"></div>
+                            <div class="form-group col-md-4"><label for="mq_horasTrabalhadas">Horas
+                                    trabalhadas</label><input type="text" class="form-control form-control-sm"
+                                    id="mq_horasTrabalhadas" name="horasTrabalhadas"></div>
+                            <div class="form-group col-md-4"><label for="mq_manutencaoPreventiva">Manutenção
+                                    preventiva</label><input type="text" class="form-control form-control-sm"
+                                    id="mq_manutencaoPreventiva" name="manutencaoPreventiva"
+                                    placeholder="Data ou status"></div>
+                            <div class="form-group col-md-4"><label for="mq_trocaOleo">Troca de óleo</label><input
+                                    type="text" class="form-control form-control-sm" id="mq_trocaOleo" name="trocaOleo">
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label for="mq_consumoCombustivel">Consumo de combustível</label><input type="text" class="form-control form-control-sm" id="mq_consumoCombustivel" name="consumoCombustivel"></div>
-                            <div class="form-group col-md-6"><label for="mq_custosManutencao">Custos de manutenção</label><input type="text" class="form-control form-control-sm" id="mq_custosManutencao" name="custosManutencao"></div>
+                            <div class="form-group col-md-6"><label for="mq_consumoCombustivel">Consumo de
+                                    combustível</label><input type="text" class="form-control form-control-sm"
+                                    id="mq_consumoCombustivel" name="consumoCombustivel"></div>
+                            <div class="form-group col-md-6"><label for="mq_custosManutencao">Custos de
+                                    manutenção</label><input type="text" class="form-control form-control-sm"
+                                    id="mq_custosManutencao" name="custosManutencao"></div>
                         </div>
                     </form>
                 </div>
@@ -660,27 +589,40 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalProducao" tabindex="-1" role="dialog" aria-labelledby="modalProducaoTitulo" aria-hidden="true">
+    <div class="modal fade" id="modalProducao" tabindex="-1" role="dialog" aria-labelledby="modalProducaoTitulo"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalProducaoTitulo">Nova produção / colheita</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form id="formProducao">
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label for="pr_talhao">Talhão</label><input type="text" class="form-control form-control-sm" id="pr_talhao" name="talhao" required></div>
-                            <div class="form-group col-md-6"><label for="pr_cultura">Cultura</label><input type="text" class="form-control form-control-sm" id="pr_cultura" name="cultura" required></div>
+                            <div class="form-group col-md-6"><label for="pr_talhao">Talhão</label><input type="text"
+                                    class="form-control form-control-sm" id="pr_talhao" name="talhao" required></div>
+                            <div class="form-group col-md-6"><label for="pr_cultura">Cultura</label><input type="text"
+                                    class="form-control form-control-sm" id="pr_cultura" name="cultura" required></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4"><label for="pr_qtdColhida">Quantidade colhida</label><input type="text" class="form-control form-control-sm" id="pr_qtdColhida" name="qtdColhida"></div>
-                            <div class="form-group col-md-4"><label for="pr_produtividadeHa">Produtividade por hectare</label><input type="text" class="form-control form-control-sm" id="pr_produtividadeHa" name="produtividadeHa" placeholder="ex.: 124 sc/ha"></div>
-                            <div class="form-group col-md-4"><label for="pr_qualidade">Qualidade da produção</label><input type="text" class="form-control form-control-sm" id="pr_qualidade" name="qualidade"></div>
+                            <div class="form-group col-md-4"><label for="pr_qtdColhida">Quantidade colhida</label><input
+                                    type="text" class="form-control form-control-sm" id="pr_qtdColhida"
+                                    name="qtdColhida"></div>
+                            <div class="form-group col-md-4"><label for="pr_produtividadeHa">Produtividade por
+                                    hectare</label><input type="text" class="form-control form-control-sm"
+                                    id="pr_produtividadeHa" name="produtividadeHa" placeholder="ex.: 124 sc/ha"></div>
+                            <div class="form-group col-md-4"><label for="pr_qualidade">Qualidade da
+                                    produção</label><input type="text" class="form-control form-control-sm"
+                                    id="pr_qualidade" name="qualidade"></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6"><label for="pr_perdas">Perdas</label><input type="text" class="form-control form-control-sm" id="pr_perdas" name="perdas"></div>
-                            <div class="form-group col-md-6"><label for="pr_armazenamento">Armazenamento</label><input type="text" class="form-control form-control-sm" id="pr_armazenamento" name="armazenamento"></div>
+                            <div class="form-group col-md-6"><label for="pr_perdas">Perdas</label><input type="text"
+                                    class="form-control form-control-sm" id="pr_perdas" name="perdas"></div>
+                            <div class="form-group col-md-6"><label for="pr_armazenamento">Armazenamento</label><input
+                                    type="text" class="form-control form-control-sm" id="pr_armazenamento"
+                                    name="armazenamento"></div>
                         </div>
                     </form>
                 </div>
@@ -692,30 +634,37 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalSolo" tabindex="-1" role="dialog" aria-labelledby="modalSoloTitulo" aria-hidden="true">
+    <div class="modal fade" id="modalSolo" tabindex="-1" role="dialog" aria-labelledby="modalSoloTitulo"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalSoloTitulo">Nova amostra de solo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <form id="formSolo">
                         <div class="form-group">
                             <label for="solo_foto">Foto da amostra <span class="text-danger">*</span></label>
-                            <input type="file" class="form-control-file" id="solo_foto" accept="image/*" capture="environment">
-                            <small class="form-text text-muted">No celular costuma abrir a <strong>câmera traseira</strong>. No computador você pode escolher uma imagem da pasta.</small>
+                            <input type="file" class="form-control-file" id="solo_foto" accept="image/*"
+                                capture="environment">
+                            <small class="form-text text-muted">No celular costuma abrir a <strong>câmera
+                                    traseira</strong>. No computador você pode escolher uma imagem da pasta.</small>
                             <div class="mt-2">
-                                <img id="solo_foto_preview" src="" alt="" class="solo-thumb-img d-none" width="72" height="72">
+                                <img id="solo_foto_preview" src="" alt="" class="solo-thumb-img d-none" width="72"
+                                    height="72">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="solo_estado">Estado do solo <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" id="solo_estado" required placeholder="ex.: Bom, ácido, compactado…">
+                            <input type="text" class="form-control form-control-sm" id="solo_estado" required
+                                placeholder="ex.: Bom, ácido, compactado…">
                         </div>
                         <div class="form-group">
                             <label for="solo_obs">Observação <span class="text-danger">*</span></label>
-                            <textarea class="form-control form-control-sm" id="solo_obs" rows="3" required placeholder="Notas sobre a amostra ou o talhão"></textarea>
+                            <textarea class="form-control form-control-sm" id="solo_obs" rows="3" required
+                                placeholder="Notas sobre a amostra ou o talhão"></textarea>
                         </div>
                         <div class="form-group mb-0">
                             <label for="solo_data">Data da amostra <span class="text-danger">*</span></label>
@@ -731,609 +680,13 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    <script>
-        (function () {
-            var nomeUsuario = null;
-            try {
-                nomeUsuario = sessionStorage.getItem('agrox_usuario');
-            } catch (e) {}
-            if (!nomeUsuario) {
-                window.location.replace('index.html');
-                return;
-            }
-
-            var sidebar = document.getElementById('sidebar');
-            var overlay = document.getElementById('sidebarOverlay');
-            var btnMenu = document.getElementById('btnMenu');
-            var navLinks = document.querySelectorAll('.dashboard-sidebar .nav-link');
-            var tituloPagina = document.getElementById('tituloPagina');
-
-            var textoBoasVindas = 'Bem-vindo(a), ' + nomeUsuario + '!';
-            var msgBoasVindas = document.getElementById('msgBoasVindas');
-            if (msgBoasVindas) {
-                msgBoasVindas.textContent = textoBoasVindas;
-                msgBoasVindas.setAttribute('title', textoBoasVindas);
-            }
-
-            var btnSair = document.getElementById('btnSair');
-            if (btnSair) {
-                btnSair.addEventListener('click', function () {
-                    try {
-                        sessionStorage.removeItem('agrox_usuario');
-                    } catch (e2) {}
-                    window.location.href = 'index.html';
-                });
-            }
-
-            var titulos = {
-                inicio: 'Início',
-                plantio: 'Plantio',
-                insumos: 'Insumos',
-                'manejo-atividades': 'Manejo e atividades',
-                'maquinas-equipamentos': 'Máquinas e equipamentos',
-                'producao-colheita': 'Produção e colheita',
-                solo: 'Solo'
-            };
-
-            function isMobile() {
-                return window.matchMedia('(max-width: 767.98px)').matches;
-            }
-
-            function fecharMenuMobile() {
-                sidebar.classList.remove('is-open');
-                overlay.classList.remove('is-visible');
-                overlay.setAttribute('aria-hidden', 'true');
-                btnMenu.setAttribute('aria-expanded', 'false');
-            }
-
-            function abrirMenuMobile() {
-                sidebar.classList.add('is-open');
-                overlay.classList.add('is-visible');
-                overlay.setAttribute('aria-hidden', 'false');
-                btnMenu.setAttribute('aria-expanded', 'true');
-            }
-
-            function alternarMenuMobile() {
-                if (sidebar.classList.contains('is-open')) {
-                    fecharMenuMobile();
-                } else {
-                    abrirMenuMobile();
-                }
-            }
-
-            btnMenu.addEventListener('click', alternarMenuMobile);
-            overlay.addEventListener('click', fecharMenuMobile);
-
-            window.addEventListener('resize', function () {
-                if (!isMobile()) {
-                    fecharMenuMobile();
-                }
-            });
-
-            function mostrarSecao(id) {
-                var secoes = document.querySelectorAll('.content-section');
-                for (var i = 0; i < secoes.length; i++) {
-                    secoes[i].classList.remove('is-active');
-                }
-                var alvo = document.getElementById('section-' + id);
-                if (alvo) {
-                    alvo.classList.add('is-active');
-                }
-                tituloPagina.textContent = titulos[id] || id;
-            }
-
-            function definirAtivo(link) {
-                for (var i = 0; i < navLinks.length; i++) {
-                    navLinks[i].classList.remove('active');
-                }
-                link.classList.add('active');
-            }
-
-            for (var j = 0; j < navLinks.length; j++) {
-                navLinks[j].addEventListener('click', function (e) {
-                    e.preventDefault();
-                    var sec = this.getAttribute('data-section');
-                    if (!sec) return;
-                    definirAtivo(this);
-                    mostrarSecao(sec);
-                    if (isMobile()) {
-                        fecharMenuMobile();
-                    }
-                });
-            }
-
-            function climaCodigoDescricao(code) {
-                var map = {
-                    0: 'Céu limpo',
-                    1: 'Predominantemente limpo',
-                    2: 'Parcialmente nublado',
-                    3: 'Nublado',
-                    45: 'Névoa',
-                    48: 'Névoa com geada',
-                    51: 'Garoa leve',
-                    53: 'Garoa moderada',
-                    55: 'Garoa densa',
-                    61: 'Chuva leve',
-                    63: 'Chuva moderada',
-                    65: 'Chuva forte',
-                    71: 'Neve leve',
-                    73: 'Neve moderada',
-                    75: 'Neve forte',
-                    80: 'Pancadas leves',
-                    81: 'Pancadas moderadas',
-                    82: 'Pancadas violentas',
-                    95: 'Trovoadas',
-                    96: 'Trovoadas com granizo leve',
-                    99: 'Trovoadas com granizo forte'
-                };
-                return map[code] != null ? map[code] : 'Condição variável';
-            }
-
-            var calMesRef = new Date();
-            calMesRef.setDate(1);
-
-            function renderCalendario() {
-                var titulo = document.getElementById('calTitulo');
-                var corpo = document.getElementById('calCorpo');
-                if (!titulo || !corpo) return;
-
-                var y = calMesRef.getFullYear();
-                var m = calMesRef.getMonth();
-                titulo.textContent = calMesRef.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
-
-                var primeiroDiaSemana = new Date(y, m, 1).getDay();
-                var diasNoMes = new Date(y, m + 1, 0).getDate();
-                var diasMesAnterior = new Date(y, m, 0).getDate();
-                var hoje = new Date();
-
-                var celulas = [];
-                var i;
-                for (i = 0; i < primeiroDiaSemana; i++) {
-                    var numPrev = diasMesAnterior - primeiroDiaSemana + i + 1;
-                    celulas.push('<td class="cal-dia-outro">' + numPrev + '</td>');
-                }
-                for (var d = 1; d <= diasNoMes; d++) {
-                    var isHoje = hoje.getFullYear() === y && hoje.getMonth() === m && hoje.getDate() === d;
-                    var attr = isHoje ? ' class="cal-hoje"' : '';
-                    celulas.push('<td' + attr + '>' + d + '</td>');
-                }
-                var prox = 1;
-                while (celulas.length % 7 !== 0) {
-                    celulas.push('<td class="cal-dia-outro">' + prox + '</td>');
-                    prox++;
-                }
-
-                var html = '';
-                for (var k = 0; k < celulas.length; k += 7) {
-                    html += '<tr>' + celulas.slice(k, k + 7).join('') + '</tr>';
-                }
-                corpo.innerHTML = html;
-            }
-
-            document.getElementById('calPrev').addEventListener('click', function () {
-                calMesRef.setMonth(calMesRef.getMonth() - 1);
-                renderCalendario();
-            });
-            document.getElementById('calNext').addEventListener('click', function () {
-                calMesRef.setMonth(calMesRef.getMonth() + 1);
-                renderCalendario();
-            });
-
-            renderCalendario();
-
-            function carregarTempoRS() {
-                var elLoad = document.getElementById('tempoCarregando');
-                var elErr = document.getElementById('tempoErro');
-                var elCont = document.getElementById('tempoConteudo');
-                if (!elLoad || !elErr || !elCont) return;
-
-                var lat = -30.0346;
-                var lon = -51.2177;
-                var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
-                    '&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m' +
-                    '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max' +
-                    '&forecast_days=5&timezone=America%2FSao_Paulo';
-
-                fetch(url)
-                    .then(function (r) {
-                        if (!r.ok) throw new Error('Falha na resposta do serviço.');
-                        return r.json();
-                    })
-                    .then(function (data) {
-                        var cur = data.current;
-                        var daily = data.daily;
-                        if (!cur || !daily || !daily.time) throw new Error('Dados incompletos.');
-
-                        document.getElementById('tempoAtualTemp').textContent =
-                            Math.round(cur.temperature_2m) + ' °C';
-                        document.getElementById('tempoAtualSens').textContent =
-                            'Sensação ' + Math.round(cur.apparent_temperature) + ' °C';
-                        document.getElementById('tempoAtualDesc').textContent =
-                            climaCodigoDescricao(cur.weather_code);
-                        document.getElementById('tempoAtualExtra').textContent =
-                            'Umidade ' + Math.round(cur.relative_humidity_2m) + '% · Vento ' +
-                            Math.round(cur.wind_speed_10m) + ' km/h';
-
-                        var html = '';
-                        for (var d = 0; d < daily.time.length; d++) {
-                            var t = new Date(daily.time[d] + 'T12:00:00');
-                            var label = t.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
-                            var tmin = Math.round(daily.temperature_2m_min[d]);
-                            var tmax = Math.round(daily.temperature_2m_max[d]);
-                            var prob = daily.precipitation_probability_max && daily.precipitation_probability_max[d] != null
-                                ? Math.round(daily.precipitation_probability_max[d])
-                                : '—';
-                            html += '<div class="tempo-lista-dia d-flex justify-content-between align-items-center">' +
-                                '<span>' + label + '</span>' +
-                                '<span class="text-muted">' + tmin + '° / ' + tmax + '° · chuva ' + prob + '%</span></div>';
-                        }
-                        document.getElementById('tempoDiario').innerHTML = html;
-
-                        elLoad.classList.add('d-none');
-                        elErr.classList.add('d-none');
-                        elCont.classList.remove('d-none');
-                    })
-                    .catch(function (err) {
-                        elLoad.classList.add('d-none');
-                        elCont.classList.add('d-none');
-                        elErr.textContent = 'Não foi possível carregar a previsão. ' + (err.message || 'Tente mais tarde.');
-                        elErr.classList.remove('d-none');
-                    });
-            }
-
-            var chatForm = document.getElementById('chatSimForm');
-            var chatInput = document.getElementById('chatSimInput');
-            var chatLog = document.getElementById('chatSimLog');
-            var chatBtn = document.getElementById('chatSimBtn');
-            var chatMsgServidorOffline = 'O servidor está fora do ar. Não foi possível obter uma resposta agora. Tente novamente mais tarde.';
-
-            if (chatForm && chatInput && chatLog && chatBtn) {
-                function chatRemoverPlaceholder() {
-                    var ph = document.getElementById('chatSimPlaceholder');
-                    if (ph && ph.parentNode) {
-                        ph.parentNode.removeChild(ph);
-                    }
-                }
-
-                function chatAppendMensagem(texto, tipo) {
-                    var row = document.createElement('div');
-                    row.className = 'mb-2 clearfix';
-                    var bubble = document.createElement('div');
-                    bubble.className = 'small rounded px-2 py-2 ' + (tipo === 'usuario'
-                        ? 'chat-sim-bubble-user float-right'
-                        : 'chat-sim-bubble-bot float-left');
-                    bubble.textContent = texto;
-                    row.appendChild(bubble);
-                    chatLog.appendChild(row);
-                    chatLog.scrollTop = chatLog.scrollHeight;
-                }
-
-                chatForm.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    var texto = chatInput.value.replace(/^\s+|\s+$/g, '');
-                    if (!texto) return;
-                    chatRemoverPlaceholder();
-                    chatAppendMensagem(texto, 'usuario');
-                    chatInput.value = '';
-                    chatBtn.disabled = true;
-                    window.setTimeout(function () {
-                        chatAppendMensagem(chatMsgServidorOffline, 'bot');
-                        chatBtn.disabled = false;
-                        chatInput.focus();
-                    }, 900);
-                });
-            }
-
-            var LS_AGRO = 'agrox_';
-
-            function agroLerLista(chave) {
-                try {
-                    var raw = localStorage.getItem(LS_AGRO + chave);
-                    var arr = raw ? JSON.parse(raw) : [];
-                    return Array.isArray(arr) ? arr : [];
-                } catch (e) {
-                    return [];
-                }
-            }
-
-            function agroGravarLista(chave, arr) {
-                localStorage.setItem(LS_AGRO + chave, JSON.stringify(arr));
-            }
-
-            function agroFormatarDataBR(iso) {
-                if (!iso) return '';
-                var s = String(iso);
-                var p = s.split('-');
-                if (p.length !== 3) return s;
-                return p[2] + '/' + p[1] + '/' + p[0];
-            }
-
-            function agroPreencherTabela(tbodyId, linhas, colunas, chavesData) {
-                var tbody = document.getElementById(tbodyId);
-                if (!tbody) return;
-                tbody.innerHTML = '';
-                if (!linhas.length) {
-                    var tr0 = document.createElement('tr');
-                    var td0 = document.createElement('td');
-                    td0.colSpan = colunas.length;
-                    td0.className = 'text-muted text-center small py-3';
-                    td0.textContent = 'Nenhum registro. Use “Novo registro” para adicionar.';
-                    tr0.appendChild(td0);
-                    tbody.appendChild(tr0);
-                    return;
-                }
-                for (var i = 0; i < linhas.length; i++) {
-                    var tr = document.createElement('tr');
-                    var row = linhas[i];
-                    for (var j = 0; j < colunas.length; j++) {
-                        var td = document.createElement('td');
-                        var k = colunas[j];
-                        var val = row[k];
-                        if (chavesData[k] && val) {
-                            td.textContent = agroFormatarDataBR(String(val));
-                        } else {
-                            td.textContent = val != null && val !== '' ? String(val) : '—';
-                        }
-                        tr.appendChild(td);
-                    }
-                    tbody.appendChild(tr);
-                }
-            }
-
-            function agroFormParaObjeto(form) {
-                var obj = {};
-                var els = form.querySelectorAll('[name]');
-                for (var i = 0; i < els.length; i++) {
-                    var el = els[i];
-                    if (el.type === 'checkbox' && !el.checked) continue;
-                    if (el.type === 'radio' && !el.checked) continue;
-                    obj[el.name] = el.value.replace(/^\s+|\s+$/g, '');
-                }
-                return obj;
-            }
-
-            var PLANTIO_COLS = ['cultura', 'talhao', 'dataPlantio', 'qtdSementes', 'variedade', 'espacamento', 'previsaoColheita'];
-            var INSUMOS_COLS = ['tipoInsumo', 'estoqueAtual', 'entradaSaida', 'custo', 'dataAplicacao', 'qtdUsada', 'fornecedor'];
-            var MANEJO_COLS = ['dataAtividade', 'tipoAtividade', 'quemExecutou', 'maquina', 'tempoGasto', 'custoOperacional', 'clima'];
-            var MAQUINAS_COLS = ['nome', 'tipoEquipamento', 'horasTrabalhadas', 'manutencaoPreventiva', 'trocaOleo', 'consumoCombustivel', 'custosManutencao'];
-            var PRODUCAO_COLS = ['talhao', 'cultura', 'qtdColhida', 'produtividadeHa', 'qualidade', 'perdas', 'armazenamento'];
-
-            var DATA_KEYS = {
-                dataPlantio: true,
-                previsaoColheita: true,
-                dataAplicacao: true,
-                dataAtividade: true
-            };
-
-            function agroRenderPlantio() {
-                agroPreencherTabela('tbody-plantio', agroLerLista('plantio'), PLANTIO_COLS, DATA_KEYS);
-            }
-            function agroRenderInsumos() {
-                agroPreencherTabela('tbody-insumos', agroLerLista('insumos'), INSUMOS_COLS, DATA_KEYS);
-            }
-            function agroRenderManejo() {
-                agroPreencherTabela('tbody-manejo', agroLerLista('manejo'), MANEJO_COLS, DATA_KEYS);
-            }
-            function agroRenderMaquinas() {
-                agroPreencherTabela('tbody-maquinas', agroLerLista('maquinas'), MAQUINAS_COLS, {});
-            }
-            function agroRenderProducao() {
-                agroPreencherTabela('tbody-producao', agroLerLista('producao'), PRODUCAO_COLS, {});
-            }
-
-            function soloRevogarPreviewBlob() {
-                var prev = document.getElementById('solo_foto_preview');
-                if (prev && prev.src && prev.src.indexOf('blob:') === 0) {
-                    URL.revokeObjectURL(prev.src);
-                }
-            }
-
-            function soloImagemParaStorage(arquivo, callback) {
-                var reader = new FileReader();
-                reader.onerror = function () {
-                    callback(null);
-                };
-                reader.onload = function (e) {
-                    var dataUrl = e.target.result;
-                    var img = new Image();
-                    img.onload = function () {
-                        var maxLado = 960;
-                        var w = img.width;
-                        var h = img.height;
-                        var nw = w;
-                        var nh = h;
-                        if (w > maxLado || h > maxLado) {
-                            if (w >= h) {
-                                nw = maxLado;
-                                nh = Math.round(h * (maxLado / w));
-                            } else {
-                                nh = maxLado;
-                                nw = Math.round(w * (maxLado / h));
-                            }
-                        }
-                        var canvas = document.createElement('canvas');
-                        canvas.width = nw;
-                        canvas.height = nh;
-                        var ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, nw, nh);
-                        var out;
-                        try {
-                            out = canvas.toDataURL('image/jpeg', 0.82);
-                        } catch (err1) {
-                            out = dataUrl;
-                        }
-                        callback(out);
-                    };
-                    img.onerror = function () {
-                        callback(dataUrl);
-                    };
-                    img.src = dataUrl;
-                };
-                reader.readAsDataURL(arquivo);
-            }
-
-            function agroRenderSolo() {
-                var tbody = document.getElementById('tbody-solo');
-                if (!tbody) return;
-                var linhas = agroLerLista('solo');
-                tbody.innerHTML = '';
-                if (!linhas.length) {
-                    var tr0 = document.createElement('tr');
-                    var td0 = document.createElement('td');
-                    td0.colSpan = 4;
-                    td0.className = 'text-muted text-center small py-3';
-                    td0.textContent = 'Nenhum registro. Use “Novo registro” para adicionar.';
-                    tr0.appendChild(td0);
-                    tbody.appendChild(tr0);
-                    return;
-                }
-                for (var i = 0; i < linhas.length; i++) {
-                    var row = linhas[i];
-                    var tr = document.createElement('tr');
-                    var tdImg = document.createElement('td');
-                    var img = document.createElement('img');
-                    img.className = 'solo-thumb-img';
-                    img.alt = 'Foto da amostra';
-                    if (row.imagemBase64 && String(row.imagemBase64).indexOf('data:') === 0) {
-                        img.src = row.imagemBase64;
-                    } else {
-                        img.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72"><rect fill="#eee" width="72" height="72"/><text x="36" y="42" text-anchor="middle" fill="#999" font-size="11">—</text></svg>');
-                    }
-                    tdImg.appendChild(img);
-                    tr.appendChild(tdImg);
-                    var tdEst = document.createElement('td');
-                    tdEst.textContent = row.estadoSolo || '—';
-                    tr.appendChild(tdEst);
-                    var tdObs = document.createElement('td');
-                    tdObs.className = 'solo-obs-celula';
-                    tdObs.textContent = row.observacao || '—';
-                    tr.appendChild(tdObs);
-                    var tdData = document.createElement('td');
-                    tdData.textContent = row.dataAmostra ? agroFormatarDataBR(String(row.dataAmostra)) : '—';
-                    tr.appendChild(tdData);
-                    tbody.appendChild(tr);
-                }
-            }
-
-            function agroBindSalvar(modalSelector, formId, storageKey, renderFn) {
-                var form = document.getElementById(formId);
-                if (!form) return;
-                $(modalSelector).on('shown.bs.modal', function () {
-                    form.reset();
-                });
-                var btnId = {
-                    formPlantio: 'btnSalvarPlantio',
-                    formInsumos: 'btnSalvarInsumos',
-                    formManejo: 'btnSalvarManejo',
-                    formMaquinas: 'btnSalvarMaquinas',
-                    formProducao: 'btnSalvarProducao'
-                }[formId];
-                var btn = document.getElementById(btnId);
-                if (!btn) return;
-                btn.addEventListener('click', function () {
-                    if (!form.checkValidity()) {
-                        form.reportValidity();
-                        return;
-                    }
-                    var o = agroFormParaObjeto(form);
-                    o.id = Date.now() + '-' + Math.random().toString(36).slice(2, 8);
-                    var list = agroLerLista(storageKey);
-                    list.push(o);
-                    agroGravarLista(storageKey, list);
-                    renderFn();
-                    $(modalSelector).modal('hide');
-                    form.reset();
-                });
-            }
-
-            agroBindSalvar('#modalPlantio', 'formPlantio', 'plantio', agroRenderPlantio);
-            agroBindSalvar('#modalInsumos', 'formInsumos', 'insumos', agroRenderInsumos);
-            agroBindSalvar('#modalManejo', 'formManejo', 'manejo', agroRenderManejo);
-            agroBindSalvar('#modalMaquinas', 'formMaquinas', 'maquinas', agroRenderMaquinas);
-            agroBindSalvar('#modalProducao', 'formProducao', 'producao', agroRenderProducao);
-
-            if (document.getElementById('modalSolo')) {
-                $('#modalSolo').on('shown.bs.modal', function () {
-                    document.getElementById('formSolo').reset();
-                    soloRevogarPreviewBlob();
-                    var prev = document.getElementById('solo_foto_preview');
-                    prev.classList.add('d-none');
-                    prev.removeAttribute('src');
-                });
-                $('#modalSolo').on('hidden.bs.modal', function () {
-                    soloRevogarPreviewBlob();
-                });
-                var soloFotoInp = document.getElementById('solo_foto');
-                if (soloFotoInp) {
-                    soloFotoInp.addEventListener('change', function () {
-                        soloRevogarPreviewBlob();
-                        var prev = document.getElementById('solo_foto_preview');
-                        var f = this.files && this.files[0];
-                        if (!f || f.type.indexOf('image/') !== 0) {
-                            prev.classList.add('d-none');
-                            prev.removeAttribute('src');
-                            return;
-                        }
-                        prev.src = URL.createObjectURL(f);
-                        prev.classList.remove('d-none');
-                    });
-                }
-                var btnSalvarSolo = document.getElementById('btnSalvarSolo');
-                if (btnSalvarSolo) {
-                    btnSalvarSolo.addEventListener('click', function () {
-                        var form = document.getElementById('formSolo');
-                        var inp = document.getElementById('solo_foto');
-                        if (!inp.files || !inp.files[0]) {
-                            window.alert('Selecione ou tire uma foto da amostra.');
-                            return;
-                        }
-                        if (inp.files[0].type.indexOf('image/') !== 0) {
-                            window.alert('O arquivo precisa ser uma imagem.');
-                            return;
-                        }
-                        if (!form.checkValidity()) {
-                            form.reportValidity();
-                            return;
-                        }
-                        var file = inp.files[0];
-                        soloImagemParaStorage(file, function (base64) {
-                            if (!base64) {
-                                window.alert('Não foi possível ler a imagem.');
-                                return;
-                            }
-                            var o = {
-                                id: Date.now() + '-' + Math.random().toString(36).slice(2, 8),
-                                imagemBase64: base64,
-                                estadoSolo: document.getElementById('solo_estado').value.replace(/^\s+|\s+$/g, ''),
-                                observacao: document.getElementById('solo_obs').value.replace(/^\s+|\s+$/g, ''),
-                                dataAmostra: document.getElementById('solo_data').value
-                            };
-                            var list = agroLerLista('solo');
-                            list.push(o);
-                            agroGravarLista('solo', list);
-                            agroRenderSolo();
-                            $('#modalSolo').modal('hide');
-                            form.reset();
-                            soloRevogarPreviewBlob();
-                            var prev = document.getElementById('solo_foto_preview');
-                            prev.classList.add('d-none');
-                            prev.removeAttribute('src');
-                        });
-                    });
-                }
-            }
-
-            agroRenderPlantio();
-            agroRenderInsumos();
-            agroRenderManejo();
-            agroRenderMaquinas();
-            agroRenderProducao();
-            agroRenderSolo();
-
-            carregarTempoRS();
-        })();
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+    <script src="js/dashboard.js"></script>
 </body>
+
 </html>

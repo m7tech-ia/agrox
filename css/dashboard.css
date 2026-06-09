@@ -1,0 +1,249 @@
+html,
+body {
+    height: 100%;
+}
+
+.dashboard-app {
+    min-height: 100%;
+    display: flex;
+}
+
+.dashboard-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background: #212529;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease;
+    z-index: 1040;
+}
+
+.sidebar-brand {
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dashboard-sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0;
+    border-left: 3px solid transparent;
+}
+
+.dashboard-sidebar .nav-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.dashboard-sidebar .nav-link.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-left-color: #007bff;
+}
+
+.dashboard-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: #f8f9fa;
+}
+
+.dashboard-topbar {
+    background: #fff;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.5rem 1rem;
+    flex-shrink: 0;
+}
+
+.dashboard-topbar #tituloPagina {
+    min-width: 0;
+}
+
+.dashboard-content {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
+    }
+
+    .dashboard-sidebar.is-open {
+        transform: translateX(0);
+    }
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1030;
+}
+
+.sidebar-overlay.is-visible {
+    display: block;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.is-active {
+    display: block;
+}
+
+.inicio-bloco .card {
+    min-height: 100%;
+}
+
+.tempo-atual-num {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.tempo-lista-dia {
+    font-size: 0.875rem;
+    border-bottom: 1px solid #eee;
+    padding: 0.35rem 0;
+}
+
+.tempo-lista-dia:last-child {
+    border-bottom: 0;
+}
+
+.calendario-tabela th,
+.calendario-tabela td {
+    width: 14.28%;
+    vertical-align: middle;
+    padding: 0.35rem 0.2rem;
+    font-size: 0.8125rem;
+}
+
+.calendario-tabela td.cal-dia-outro {
+    color: #adb5bd;
+}
+
+.calendario-tabela td.cal-hoje {
+    background: #e7f1ff;
+    color: #0056b3;
+    font-weight: 600;
+    border-radius: 0.25rem;
+}
+
+.calendario-tabela td.cal-com-evento {
+    vertical-align: top;
+}
+
+.cal-dia-num {
+    display: block;
+    line-height: 1.2;
+}
+
+.cal-marcadores {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1px;
+    margin-top: 2px;
+    line-height: 1;
+}
+
+.cal-icone {
+    font-size: 0.65rem;
+    line-height: 1;
+}
+
+.cal-legenda {
+    font-size: 0.75rem;
+}
+
+.cal-legenda-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0.75rem;
+    margin-bottom: 0.25rem;
+    color: #495057;
+}
+
+.cal-legenda-item .cal-icone {
+    font-size: 0.8rem;
+    margin-right: 0.25rem;
+}
+
+.contatos-lista {
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.contatos-lista .list-group-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.contatos-lista a {
+    white-space: nowrap;
+}
+
+.solo-thumb-img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    border: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.solo-obs-celula {
+    max-width: 260px;
+    font-size: 0.8125rem;
+    word-break: break-word;
+}
+
+.chat-sim-wrap {
+    min-height: 320px;
+}
+
+.chat-sim-log {
+    flex: 1;
+    min-height: 180px;
+    max-height: 220px;
+    overflow-y: auto;
+    background: #e9ecef;
+}
+
+.chat-sim-bubble-user {
+    max-width: 88%;
+    background: #007bff;
+    color: #fff;
+}
+
+.chat-sim-bubble-bot {
+    max-width: 88%;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    color: #495057;
+}
+
+.agro-crud-table thead th {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.agro-crud-table td {
+    font-size: 0.8125rem;
+    vertical-align: middle;
+}
