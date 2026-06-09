@@ -239,61 +239,109 @@
         renderCalendario();
     });
 
+    var TEMPO_CIDADES = [
+        { nome: 'Bom Retiro do Sul', lat: -29.6058, lon: -51.9442 },
+        { nome: 'Estrela', lat: -29.5000, lon: -51.9689 }
+    ];
+
+    function tempoMontarUrl(lat, lon) {
+        return 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
+            '&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m' +
+            '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max' +
+            '&forecast_days=5&timezone=America%2FSao_Paulo';
+    }
+
+    var tempoDadosCache = null;
+
+    function tempoRenderCidade(data) {
+        var cur = data.current;
+        var daily = data.daily;
+        if (!cur || !daily || !daily.time) throw new Error('Dados incompletos.');
+
+        var html = '<div class="tempo-cidade">' +
+            '<div class="d-flex flex-wrap align-items-baseline mb-2">' +
+            '<span class="tempo-atual-num mr-2">' + Math.round(cur.temperature_2m) + ' °C</span>' +
+            '<span class="text-muted small">Sensação ' + Math.round(cur.apparent_temperature) + ' °C</span>' +
+            '</div>' +
+            '<p class="small mb-2">' + climaCodigoDescricao(cur.weather_code) + '</p>' +
+            '<p class="small text-muted mb-2">Umidade ' + Math.round(cur.relative_humidity_2m) + '% · Vento ' +
+            Math.round(cur.wind_speed_10m) + ' km/h</p>' +
+            '<p class="small font-weight-bold text-muted mb-1">Próximos dias</p>';
+
+        for (var d = 0; d < daily.time.length; d++) {
+            var t = new Date(daily.time[d] + 'T12:00:00');
+            var label = t.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
+            var tmin = Math.round(daily.temperature_2m_min[d]);
+            var tmax = Math.round(daily.temperature_2m_max[d]);
+            var prob = daily.precipitation_probability_max && daily.precipitation_probability_max[d] != null
+                ? Math.round(daily.precipitation_probability_max[d])
+                : '—';
+            html += '<div class="tempo-lista-dia d-flex justify-content-between align-items-center">' +
+                '<span>' + label + '</span>' +
+                '<span class="text-muted">' + tmin + '° / ' + tmax + '° · chuva ' + prob + '%</span></div>';
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function tempoMostrarCidade(indice) {
+        var elCidades = document.getElementById('tempoCidades');
+        var elSeletor = document.getElementById('tempoSeletor');
+        if (!elCidades || !tempoDadosCache || !tempoDadosCache[indice]) return;
+
+        elCidades.innerHTML = tempoRenderCidade(tempoDadosCache[indice].data);
+
+        if (elSeletor) {
+            var btns = elSeletor.querySelectorAll('[data-tempo-idx]');
+            for (var i = 0; i < btns.length; i++) {
+                var ativo = parseInt(btns[i].getAttribute('data-tempo-idx'), 10) === indice;
+                btns[i].classList.toggle('active', ativo);
+                btns[i].setAttribute('aria-pressed', ativo ? 'true' : 'false');
+            }
+        }
+    }
+
     function carregarTempoRS() {
         var elLoad = document.getElementById('tempoCarregando');
         var elErr = document.getElementById('tempoErro');
         var elCont = document.getElementById('tempoConteudo');
-        if (!elLoad || !elErr || !elCont) return;
+        var elCidades = document.getElementById('tempoCidades');
+        var elSeletor = document.getElementById('tempoSeletor');
+        if (!elLoad || !elErr || !elCont || !elCidades) return;
 
-        var lat = -30.0346;
-        var lon = -51.2177;
-        var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
-            '&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m' +
-            '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max' +
-            '&forecast_days=5&timezone=America%2FSao_Paulo';
+        if (elSeletor && !elSeletor.dataset.bound) {
+            elSeletor.dataset.bound = '1';
+            elSeletor.addEventListener('click', function (e) {
+                var btn = e.target.closest('[data-tempo-idx]');
+                if (!btn) return;
+                tempoMostrarCidade(parseInt(btn.getAttribute('data-tempo-idx'), 10));
+            });
+        }
 
-        fetch(url)
-            .then(function (r) {
-                if (!r.ok) throw new Error('Falha na resposta do serviço.');
-                return r.json();
-            })
-            .then(function (data) {
-                var cur = data.current;
-                var daily = data.daily;
-                if (!cur || !daily || !daily.time) throw new Error('Dados incompletos.');
+        var promessas = TEMPO_CIDADES.map(function (cidade) {
+            return fetch(tempoMontarUrl(cidade.lat, cidade.lon))
+                .then(function (r) {
+                    if (!r.ok) throw new Error('Falha na resposta do serviço.');
+                    return r.json();
+                })
+                .then(function (data) {
+                    return { nome: cidade.nome, data: data };
+                });
+        });
 
-                document.getElementById('tempoAtualTemp').textContent =
-                    Math.round(cur.temperature_2m) + ' °C';
-                document.getElementById('tempoAtualSens').textContent =
-                    'Sensação ' + Math.round(cur.apparent_temperature) + ' °C';
-                document.getElementById('tempoAtualDesc').textContent =
-                    climaCodigoDescricao(cur.weather_code);
-                document.getElementById('tempoAtualExtra').textContent =
-                    'Umidade ' + Math.round(cur.relative_humidity_2m) + '% · Vento ' +
-                    Math.round(cur.wind_speed_10m) + ' km/h';
-
-                var html = '';
-                for (var d = 0; d < daily.time.length; d++) {
-                    var t = new Date(daily.time[d] + 'T12:00:00');
-                    var label = t.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
-                    var tmin = Math.round(daily.temperature_2m_min[d]);
-                    var tmax = Math.round(daily.temperature_2m_max[d]);
-                    var prob = daily.precipitation_probability_max && daily.precipitation_probability_max[d] != null
-                        ? Math.round(daily.precipitation_probability_max[d])
-                        : '—';
-                    html += '<div class="tempo-lista-dia d-flex justify-content-between align-items-center">' +
-                        '<span>' + label + '</span>' +
-                        '<span class="text-muted">' + tmin + '° / ' + tmax + '° · chuva ' + prob + '%</span></div>';
-                }
-                document.getElementById('tempoDiario').innerHTML = html;
-
+        Promise.all(promessas)
+            .then(function (resultados) {
+                tempoDadosCache = resultados;
+                tempoMostrarCidade(0);
                 elLoad.classList.add('d-none');
                 elErr.classList.add('d-none');
                 elCont.classList.remove('d-none');
+                if (elSeletor) elSeletor.classList.remove('d-none');
             })
             .catch(function (err) {
                 elLoad.classList.add('d-none');
                 elCont.classList.add('d-none');
+                if (elSeletor) elSeletor.classList.add('d-none');
                 elErr.textContent = 'Não foi possível carregar a previsão. ' + (err.message || 'Tente mais tarde.');
                 elErr.classList.remove('d-none');
             });

@@ -56,22 +56,26 @@
                                     <h3 class="h6 text-uppercase text-muted mb-1">
                                         Previsão do tempo
                                     </h3>
-                                    <p class="small text-muted mb-3">
-                                        Rio Grande do Sul · referência: Porto Alegre
+                                    <p class="small text-muted mb-2">
+                                        Rio Grande do Sul
                                     </p>
+                                    <div id="tempoSeletor" class="btn-group btn-group-sm mb-3 d-none" role="group"
+                                        aria-label="Cidade da previsão">
+                                        <button type="button" class="btn btn-outline-secondary active" data-tempo-idx="0"
+                                            aria-pressed="true">
+                                            Bom Retiro do Sul
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" data-tempo-idx="1"
+                                            aria-pressed="false">
+                                            Estrela
+                                        </button>
+                                    </div>
                                     <div id="tempoCarregando" class="text-muted small">
                                         Carregando dados…
                                     </div>
                                     <div id="tempoErro" class="alert alert-warning small py-2 mb-0 d-none" role="alert"></div>
                                     <div id="tempoConteudo" class="d-none flex-grow-1">
-                                        <div class="d-flex flex-wrap align-items-baseline mb-2">
-                                            <span class="tempo-atual-num mr-2" id="tempoAtualTemp"></span>
-                                            <span class="text-muted small" id="tempoAtualSens"></span>
-                                        </div>
-                                        <p class="small mb-2" id="tempoAtualDesc"></p>
-                                        <p class="small text-muted mb-3" id="tempoAtualExtra"></p>
-                                        <p class="small font-weight-bold text-muted mb-1">Próximos dias</p>
-                                        <div id="tempoDiario"></div>
+                                        <div id="tempoCidades"></div>
                                     </div>
                                 </div>
                             </div>

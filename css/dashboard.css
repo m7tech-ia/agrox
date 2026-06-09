@@ -108,6 +108,10 @@ body {
     min-height: 100%;
 }
 
+#tempoSeletor .btn {
+    font-size: 0.75rem;
+}
+
 .tempo-atual-num {
     font-size: 2rem;
     font-weight: 600;
