@@ -347,49 +347,6 @@
             });
     }
 
-    var chatForm = document.getElementById('chatSimForm');
-    var chatInput = document.getElementById('chatSimInput');
-    var chatLog = document.getElementById('chatSimLog');
-    var chatBtn = document.getElementById('chatSimBtn');
-    var chatMsgServidorOffline = 'O servidor está fora do ar. Não foi possível obter uma resposta agora. Tente novamente mais tarde.';
-
-    if (chatForm && chatInput && chatLog && chatBtn) {
-        function chatRemoverPlaceholder() {
-            var ph = document.getElementById('chatSimPlaceholder');
-            if (ph && ph.parentNode) {
-                ph.parentNode.removeChild(ph);
-            }
-        }
-
-        function chatAppendMensagem(texto, tipo) {
-            var row = document.createElement('div');
-            row.className = 'mb-2 clearfix';
-            var bubble = document.createElement('div');
-            bubble.className = 'small rounded px-2 py-2 ' + (tipo === 'usuario'
-                ? 'chat-sim-bubble-user float-right'
-                : 'chat-sim-bubble-bot float-left');
-            bubble.textContent = texto;
-            row.appendChild(bubble);
-            chatLog.appendChild(row);
-            chatLog.scrollTop = chatLog.scrollHeight;
-        }
-
-        chatForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var texto = chatInput.value.replace(/^\s+|\s+$/g, '');
-            if (!texto) return;
-            chatRemoverPlaceholder();
-            chatAppendMensagem(texto, 'usuario');
-            chatInput.value = '';
-            chatBtn.disabled = true;
-            window.setTimeout(function () {
-                chatAppendMensagem(chatMsgServidorOffline, 'bot');
-                chatBtn.disabled = false;
-                chatInput.focus();
-            }, 900);
-        });
-    }
-
     var LS_AGRO = 'agrox_';
 
     function agroLerLista(chave) {
