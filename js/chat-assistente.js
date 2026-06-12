@@ -80,10 +80,16 @@
     }
 
     function perguntarAssistente(pergunta) {
+        var payload = { prompt: pergunta };
+        var bodyJson = JSON.stringify(payload);
+
         return fetch(obterBaseUrl() + '/messages', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: pergunta })
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: bodyJson
         })
             .then(function (resposta) {
                 return resposta.json().then(function (data) {
