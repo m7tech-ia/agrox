@@ -1,6 +1,6 @@
 (function () {
     var USUARIO_OK = 'admin';
-    var SENHA_OK = '4861FUT2z9VS';
+    var SENHA_OK = '123';
 
     var form = document.getElementById('formLogin');
     var erro = document.getElementById('loginErro');
