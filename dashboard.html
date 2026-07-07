@@ -23,7 +23,9 @@
                 <a class="nav-link" href="#" data-section="manejo-atividades">Manejo e atividades</a>
                 <a class="nav-link" href="#" data-section="maquinas-equipamentos">Máquinas e equipamentos</a>
                 <a class="nav-link" href="#" data-section="producao-colheita">Produção e colheita</a>
+                <a class="nav-link" href="#" data-section="producao-leite">Produção de Leite</a>
                 <a class="nav-link" href="#" data-section="solo">Solo</a>
+                <a class="nav-link" href="#" data-section="cria-recria">Cria e Recria</a>
             </nav>
         </aside>
 
@@ -354,6 +356,20 @@
                         </div>
                     </div>
                 </div>
+                <div id="section-producao-leite" class="content-section">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+                                <h2 class="h5 card-title mb-0">Produção de Leite</h2>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modalProducaoLeite">Novo registro</button>
+                            </div>
+                            <p class="small text-muted mb-3">Um card por animal, com a média de alimento e de leite
+                                calculada a partir de todos os registros.</p>
+                            <div class="row" id="leiteCards"></div>
+                        </div>
+                    </div>
+                </div>
                 <div id="section-solo" class="content-section">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
@@ -377,6 +393,20 @@
                                     <tbody id="tbody-solo"></tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="section-cria-recria" class="content-section">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+                                <h2 class="h5 card-title mb-0">Cria e Recria</h2>
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modalCriaRecria">Novo registro</button>
+                            </div>
+                            <p class="small text-muted mb-3">Um card por animal, com a quantidade de registros de cria
+                                e recria.</p>
+                            <div class="row" id="criaRecriaCards"></div>
                         </div>
                     </div>
                 </div>
@@ -637,6 +667,73 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalProducaoLeite" tabindex="-1" role="dialog" aria-labelledby="modalProducaoLeiteTitulo"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalProducaoLeiteTitulo">Nova produção de leite</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formProducaoLeite">
+                        <div class="form-row">
+                            <div class="form-group col-md-6"><label for="lt_animal">Nome/Registro do animal</label><input
+                                    type="text" class="form-control form-control-sm" id="lt_animal" name="animal"
+                                    required></div>
+                            <div class="form-group col-md-6"><label for="lt_data">Data do registro</label><input
+                                    type="date" class="form-control form-control-sm" id="lt_data" name="dataRegistro"
+                                    required></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6"><label for="lt_qtdAlimento">Quantidade de alimento
+                                    (kg)</label><input type="text" class="form-control form-control-sm"
+                                    id="lt_qtdAlimento" name="qtdAlimento"></div>
+                            <div class="form-group col-md-6"><label for="lt_qtdLeite">Quantidade de leite produzido
+                                    (l)</label><input type="text" class="form-control form-control-sm"
+                                    id="lt_qtdLeite" name="qtdLeite"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="btnSalvarProducaoLeite">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDetalhesLeite" tabindex="-1" role="dialog" aria-labelledby="modalDetalhesLeiteTitulo"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetalhesLeiteTitulo">Registros do animal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-bordered agro-crud-table mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Data do registro</th>
+                                    <th>Quantidade de alimento (kg)</th>
+                                    <th>Quantidade de leite produzido (l)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-detalhes-leite"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modalSolo" tabindex="-1" role="dialog" aria-labelledby="modalSoloTitulo"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -678,6 +775,71 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary btn-sm" id="btnSalvarSolo">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCriaRecria" tabindex="-1" role="dialog" aria-labelledby="modalCriaRecriaTitulo"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCriaRecriaTitulo">Novo registro de cria e recria</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCriaRecria">
+                        <div class="form-row">
+                            <div class="form-group col-md-6"><label for="cr_animal">Nome/Registro do animal</label><input
+                                    type="text" class="form-control form-control-sm" id="cr_animal" name="animal"
+                                    required></div>
+                            <div class="form-group col-md-6"><label for="cr_data">Data</label><input type="date"
+                                    class="form-control form-control-sm" id="cr_data" name="dataRegistro" required>
+                            </div>
+                        </div>
+                        <div class="form-group"><label for="cr_fato">Fato</label><input type="text"
+                                class="form-control form-control-sm" id="cr_fato" name="fato" required
+                                placeholder="ex.: Nascimento, desmame, vacinação, pesagem…"></div>
+                        <div class="form-group mb-0"><label for="cr_descricao">Descrição</label><textarea
+                                class="form-control form-control-sm" id="cr_descricao" name="descricao" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="btnSalvarCriaRecria">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDetalhesCriaRecria" tabindex="-1" role="dialog"
+        aria-labelledby="modalDetalhesCriaRecriaTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetalhesCriaRecriaTitulo">Registros do animal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-bordered agro-crud-table mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Fato</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-detalhes-cria-recria"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

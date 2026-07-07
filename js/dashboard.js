@@ -38,7 +38,9 @@
         'manejo-atividades': 'Manejo e atividades',
         'maquinas-equipamentos': 'Máquinas e equipamentos',
         'producao-colheita': 'Produção e colheita',
-        solo: 'Solo'
+        'producao-leite': 'Produção de Leite',
+        solo: 'Solo',
+        'cria-recria': 'Cria e Recria'
     };
 
     function isMobile() {
@@ -452,12 +454,15 @@
     var MANEJO_COLS = ['dataAtividade', 'tipoAtividade', 'quemExecutou', 'maquina', 'tempoGasto', 'custoOperacional', 'clima'];
     var MAQUINAS_COLS = ['nome', 'tipoEquipamento', 'horasTrabalhadas', 'manutencaoPreventiva', 'trocaOleo', 'consumoCombustivel', 'custosManutencao'];
     var PRODUCAO_COLS = ['talhao', 'cultura', 'qtdColhida', 'produtividadeHa', 'qualidade', 'perdas', 'armazenamento'];
+    var LEITE_DETALHE_COLS = ['dataRegistro', 'qtdAlimento', 'qtdLeite'];
+    var CRIA_RECRIA_DETALHE_COLS = ['dataRegistro', 'fato', 'descricao'];
 
     var DATA_KEYS = {
         dataPlantio: true,
         previsaoColheita: true,
         dataAplicacao: true,
-        dataAtividade: true
+        dataAtividade: true,
+        dataRegistro: true
     };
 
     function agroRenderPlantio() {
@@ -474,6 +479,181 @@
     }
     function agroRenderProducao() {
         agroPreencherTabela('tbody-producao', agroLerLista('producao'), PRODUCAO_COLS, {});
+    }
+    function agroAgruparPorAnimal(lista) {
+        var grupos = {};
+        var ordem = [];
+        for (var i = 0; i < lista.length; i++) {
+            var nome = lista[i].animal || '—';
+            if (!grupos[nome]) {
+                grupos[nome] = [];
+                ordem.push(nome);
+            }
+            grupos[nome].push(lista[i]);
+        }
+        return ordem.map(function (nome) {
+            return { nome: nome, registros: grupos[nome] };
+        });
+    }
+
+    function agroMediaCampo(registros, campo) {
+        var soma = 0;
+        var qtd = 0;
+        for (var i = 0; i < registros.length; i++) {
+            var val = parseFloat(String(registros[i][campo] || '').replace(',', '.'));
+            if (!isNaN(val)) {
+                soma += val;
+                qtd++;
+            }
+        }
+        return qtd ? soma / qtd : null;
+    }
+
+    function agroFormatarMedia(valor) {
+        return valor == null ? '—' : valor.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
+
+    function agroRenderProducaoLeite() {
+        var cont = document.getElementById('leiteCards');
+        if (!cont) return;
+        var lista = agroLerLista('producaoLeite');
+        cont.innerHTML = '';
+        if (!lista.length) {
+            var vazio = document.createElement('div');
+            vazio.className = 'col-12 text-muted text-center small py-3';
+            vazio.textContent = 'Nenhum registro. Use “Novo registro” para adicionar.';
+            cont.appendChild(vazio);
+            return;
+        }
+        var grupos = agroAgruparPorAnimal(lista);
+        for (var i = 0; i < grupos.length; i++) {
+            var g = grupos[i];
+            var mediaAlimento = agroMediaCampo(g.registros, 'qtdAlimento');
+            var mediaLeite = agroMediaCampo(g.registros, 'qtdLeite');
+
+            var col = document.createElement('div');
+            col.className = 'col-12 col-md-6 col-lg-4 mb-3';
+
+            var card = document.createElement('div');
+            card.className = 'card border-0 shadow-sm h-100';
+
+            var body = document.createElement('div');
+            body.className = 'card-body d-flex flex-column';
+
+            var titulo = document.createElement('h3');
+            titulo.className = 'h6 mb-2 text-truncate';
+            titulo.title = g.nome;
+            titulo.textContent = g.nome;
+            body.appendChild(titulo);
+
+            var infoAlimento = document.createElement('p');
+            infoAlimento.className = 'small text-muted mb-1';
+            infoAlimento.textContent = 'Média de alimento: ' + agroFormatarMedia(mediaAlimento) + ' kg';
+            body.appendChild(infoAlimento);
+
+            var infoLeite = document.createElement('p');
+            infoLeite.className = 'small text-muted mb-3';
+            infoLeite.textContent = 'Média de leite: ' + agroFormatarMedia(mediaLeite) + ' l';
+            body.appendChild(infoLeite);
+
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn btn-outline-secondary btn-sm mt-auto';
+            btn.textContent = 'Detalhes';
+            btn.setAttribute('data-animal', g.nome);
+            body.appendChild(btn);
+
+            card.appendChild(body);
+            col.appendChild(card);
+            cont.appendChild(col);
+        }
+    }
+
+    function agroAbrirDetalhesLeite(nomeAnimal) {
+        var lista = agroLerLista('producaoLeite').filter(function (r) {
+            return (r.animal || '—') === nomeAnimal;
+        });
+        var titulo = document.getElementById('modalDetalhesLeiteTitulo');
+        if (titulo) titulo.textContent = 'Registros de ' + nomeAnimal;
+        agroPreencherTabela('tbody-detalhes-leite', lista, LEITE_DETALHE_COLS, DATA_KEYS);
+        $('#modalDetalhesLeite').modal('show');
+    }
+
+    var leiteCardsCont = document.getElementById('leiteCards');
+    if (leiteCardsCont) {
+        leiteCardsCont.addEventListener('click', function (e) {
+            var btn = e.target.closest('[data-animal]');
+            if (!btn) return;
+            agroAbrirDetalhesLeite(btn.getAttribute('data-animal'));
+        });
+    }
+
+    function agroRenderCriaRecria() {
+        var cont = document.getElementById('criaRecriaCards');
+        if (!cont) return;
+        var lista = agroLerLista('criaRecria');
+        cont.innerHTML = '';
+        if (!lista.length) {
+            var vazio = document.createElement('div');
+            vazio.className = 'col-12 text-muted text-center small py-3';
+            vazio.textContent = 'Nenhum registro. Use “Novo registro” para adicionar.';
+            cont.appendChild(vazio);
+            return;
+        }
+        var grupos = agroAgruparPorAnimal(lista);
+        for (var i = 0; i < grupos.length; i++) {
+            var g = grupos[i];
+
+            var col = document.createElement('div');
+            col.className = 'col-12 col-md-6 col-lg-4 mb-3';
+
+            var card = document.createElement('div');
+            card.className = 'card border-0 shadow-sm h-100';
+
+            var body = document.createElement('div');
+            body.className = 'card-body d-flex flex-column';
+
+            var titulo = document.createElement('h3');
+            titulo.className = 'h6 mb-2 text-truncate';
+            titulo.title = g.nome;
+            titulo.textContent = g.nome;
+            body.appendChild(titulo);
+
+            var info = document.createElement('p');
+            info.className = 'small text-muted mb-3';
+            info.textContent = g.registros.length + (g.registros.length === 1 ? ' registro' : ' registros');
+            body.appendChild(info);
+
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn btn-outline-secondary btn-sm mt-auto';
+            btn.textContent = 'Detalhes';
+            btn.setAttribute('data-animal', g.nome);
+            body.appendChild(btn);
+
+            card.appendChild(body);
+            col.appendChild(card);
+            cont.appendChild(col);
+        }
+    }
+
+    function agroAbrirDetalhesCriaRecria(nomeAnimal) {
+        var lista = agroLerLista('criaRecria').filter(function (r) {
+            return (r.animal || '—') === nomeAnimal;
+        });
+        var titulo = document.getElementById('modalDetalhesCriaRecriaTitulo');
+        if (titulo) titulo.textContent = 'Registros de ' + nomeAnimal;
+        agroPreencherTabela('tbody-detalhes-cria-recria', lista, CRIA_RECRIA_DETALHE_COLS, DATA_KEYS);
+        $('#modalDetalhesCriaRecria').modal('show');
+    }
+
+    var criaRecriaCardsCont = document.getElementById('criaRecriaCards');
+    if (criaRecriaCardsCont) {
+        criaRecriaCardsCont.addEventListener('click', function (e) {
+            var btn = e.target.closest('[data-animal]');
+            if (!btn) return;
+            agroAbrirDetalhesCriaRecria(btn.getAttribute('data-animal'));
+        });
     }
 
     function soloRevogarPreviewBlob() {
@@ -581,7 +761,9 @@
             formInsumos: 'btnSalvarInsumos',
             formManejo: 'btnSalvarManejo',
             formMaquinas: 'btnSalvarMaquinas',
-            formProducao: 'btnSalvarProducao'
+            formProducao: 'btnSalvarProducao',
+            formProducaoLeite: 'btnSalvarProducaoLeite',
+            formCriaRecria: 'btnSalvarCriaRecria'
         }[formId];
         var btn = document.getElementById(btnId);
         if (!btn) return;
@@ -607,6 +789,8 @@
     agroBindSalvar('#modalManejo', 'formManejo', 'manejo', agroRenderManejo);
     agroBindSalvar('#modalMaquinas', 'formMaquinas', 'maquinas', agroRenderMaquinas);
     agroBindSalvar('#modalProducao', 'formProducao', 'producao', agroRenderProducao);
+    agroBindSalvar('#modalProducaoLeite', 'formProducaoLeite', 'producaoLeite', agroRenderProducaoLeite);
+    agroBindSalvar('#modalCriaRecria', 'formCriaRecria', 'criaRecria', agroRenderCriaRecria);
 
     if (document.getElementById('modalSolo')) {
         $('#modalSolo').on('shown.bs.modal', function () {
@@ -685,7 +869,9 @@
     agroRenderManejo();
     agroRenderMaquinas();
     agroRenderProducao();
+    agroRenderProducaoLeite();
     agroRenderSolo();
+    agroRenderCriaRecria();
     calRenderLegenda();
     renderCalendario();
 
